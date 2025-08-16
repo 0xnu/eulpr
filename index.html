@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EULPR: European License Plate Recognition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Color palette from yolov8.com */
+    :root {
+      --bg: #0e0e0e;
+      --bg-light: #1a1a1a;
+      --text: #f5f5f5;
+      --primary: #ff7b00;
+      --primary-light: #ff9e42;
+      --secondary: #5a5a5a;
+      --accent: #8b5cf6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--bg-light);
+      padding: 1.5rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid #222;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+
+    header p {
+      color: var(--secondary);
+      margin-top: 0.5rem;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 1rem auto;
+      text-align: center;
+    }
+
+    nav a {
+      color: var(--primary-light);
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+
+    p, ul {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    ul {
+      list-style: disc inside;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #000;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--primary-light);
+    }
+
+    pre {
+      background: var(--bg-light);
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      color: #f5f5f5;
+      margin-bottom: 1rem;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+
+    #usecase a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    #usecase a:hover {
+      color: var(--primary-light);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    #contact a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    #contact a:hover {
+      color: var(--primary-light);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--secondary);
+      font-size: 0.9rem;
+      border-top: 1px solid #222;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>EULPR</h1>
+    <p>State-of-the-art European License Plate Recognition</p>
+  </header>
+
+  <nav>
+    <a href="#what">What is EULPR?</a>
+    <a href="#usecase">Use Cases</a>
+    <a href="#usage">Usage</a>
+    <a href="#datasets">Datasets</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section id="what">
+      <h2>What is EULPR?</h2>
+      <p>
+        EULPR is a computer-vision model architecture purpose-built for detecting, reading, and recognizing European license plates. It is optimized for speed and accuracy across diverse EU plate formats.
+      </p>
+      <h3>Key Features</h3>
+      <ul>
+        <li>Anchor-free plate localization</li>
+        <li>Multi-country character recognition</li>
+        <li>Optimized convolutional blocks</li>
+        <li>Real-time inference on edge devices</li>
+      </ul>
+    </section>
+
+    <section id="usecase">
+      <h2>Use Cases</h2>
+      <p>
+        <a href="https://huggingface.co/0xnu/european-license-plate-recognition">EULPR</a> is designed to be used in a variety of applications, including:
+      </p>
+      <ul>
+        <li>Traffic monitoring systems</li>
+        <li>Vehicle registration and identification</li>
+        <li>Law enforcement and security</li>
+        <li>Automated toll collection</li>
+        <li>Vehicle access control</li>
+      </ul>
+    </section>
+
+    <section id="usage">
+      <h2>Install Required Packages</h2>
+      <pre><code>pip install ultralytics easyocr opencv-python pillow torch torchvision huggingface_hub</code></pre>
+
+      <h2>Usage Example</h2>
+        <pre>
+<code>import cv2
+import numpy as np
+from ultralytics import YOLO
+import easyocr
+from PIL import Image
+from huggingface_hub import hf_hub_download
+import warnings
+
+# Suppress warnings
+warnings.filterwarnings('ignore')
+
+# Download models from HuggingFace
+print("Downloading model from HuggingFace...")
+model_path = hf_hub_download(repo_id="0xnu/european-license-plate-recognition", filename="model.onnx")
+config_path = hf_hub_download(repo_id="0xnu/european-license-plate-recognition", filename="config.json")
+
+# Load models with explicit task specification
+yolo_model = YOLO(model_path, task='detect')
+ocr_reader = easyocr.Reader(['en', 'de', 'fr', 'es', 'it', 'nl'], gpu=False, verbose=False)
+
+# Process image
+def recognize_license_plate(image_path):
+   # Load image
+   image = cv2.imread(image_path)
+   image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+   
+   # Detect license plates
+   results = yolo_model(image_rgb, conf=0.5, verbose=False)
+   
+   plates = []
+   for result in results:
+       boxes = result.boxes
+       if boxes is not None:
+           for box in boxes:
+               # Get coordinates
+               x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()
+               
+               # Crop plate
+               plate_crop = image_rgb[int(y1):int(y2), int(x1):int(x2)]
+               
+               # Extract text
+               ocr_results = ocr_reader.readtext(plate_crop)
+               if ocr_results:
+                   text = ocr_results[0][1]
+                   confidence = float(ocr_results[0][2])  # Convert to native Python float
+                   plates.append({'text': text, 'confidence': confidence})
+   
+   return plates
+
+# Usage Example
+results = recognize_license_plate('sample_car_with_license.jpeg')
+print(results)</code>
+        </pre>
+    </section>
+
+    <section id="datasets">
+      <h2>Find EULPR Datasets</h2>
+      <p>
+        Discover curated EU license-plate datasets on <strong>Hugging Face</strong>—ready for immediate training or fine-tuning.
+      </p>
+      <a class="btn" href="https://huggingface.co/datasets/0xnu/european-licence-plate" target="_blank">EULPR Datasets</a>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        Custom implementation and support are available. Contact me at <a href="mailto:f@finbarrs.eu">f@finbarrs.eu</a> for more information.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Finbarrs Oketunji. All Rights Reserved.<br>
+    Made with 💜 in United Kingdom 🇬🇧
+  </footer>
+
+</body>
+</html>
