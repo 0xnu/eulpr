@@ -9,7 +9,7 @@ EULPR is a computer-vision model architecture purpose-built for detecting, readi
 - **Detection Rate**: 100.0%
 - **Text Extraction Rate**: 100.0%
 - **Processing Speed**: 7.6 FPS
-- **Model Size**: YOLOv8 Nano (~6MB)
+- **Model Size**: YOLOv8 Nano (~12.3MB)
 
 ### Supported Languages
 
