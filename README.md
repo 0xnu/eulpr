@@ -9,7 +9,7 @@ EULPR is a computer-vision model architecture purpose-built for detecting, readi
 - **Detection Rate**: 100.0%
 - **Text Extraction Rate**: 100.0%
 - **Processing Speed**: 7.6 FPS
-- **Model Size**: YOLOv8 Nano (~12.3MB)
+- **Model Size**: YOLOv12 Nano (~10.5MB)
 
 ### Supported Languages
 
@@ -87,8 +87,8 @@ print(results)
 
 ### Model Architecture
 
-#### Detection Model (YOLOv8n)
-- **Architecture**: YOLOv8 Nano
+#### Detection Model (YOLOv12n)
+- **Architecture**: YOLOv12 Nano
 - **Parameters**: ~3M
 - **Input Size**: 640x640 pixels
 - **Output**: Bounding boxes for license plates
@@ -105,7 +105,7 @@ print(results)
 - **Batch Size**: 16
 - **Image Size**: 640x640
 - **Optimizer**: AdamW
-- **Framework**: Ultralytics YOLOv8
+- **Framework**: Ultralytics YOLOv12
 
 ### Use Cases
 
